@@ -386,6 +386,7 @@ a{
   width: 100%;
   max-width: 440px;
   max-height: 90vh;
+  overflow: hidden;
   overflow-y: auto;
   border-radius: 24px;
   border: 3px solid var(--magenta);
@@ -562,6 +563,24 @@ textarea.field {
   background: var(--purple);
 }
 
+.modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 24px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  background: rgba(0, 194, 209, 0.35);
+  border-radius: 8px;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 194, 209, 0.6);
+}
+
 .emoji-opt {
   width: 36px;
   height: 36px;
@@ -618,7 +637,7 @@ textarea.field {
 
 .theme-opt.selected {
   transform: scale(1.25) translateY(-2px);
-  outline: 2px solid var(--text-main);
+  outline: 3px solid var(--text-main);
   outline-offset: 2px;
 }
 

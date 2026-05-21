@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>thank you glenda!</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400&family=Nunito:ital,wght@0,400;0,700;0,900;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+ 
+  <canvas id="confetti-canvas"></canvas>
+ 
+  <div class="main-container">
+ 
+    <header class="hero">
+      <div class="star-row" aria-hidden="true">⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚</div>
+      <h1 class="hero-title">thank you glenda!</h1>
+      <p class="hero-sub">UCD will never be the same without you! thank you for bringing your spunk, engery, and excitement into every class you taught! ✨</p>
+      <div class="star-row" aria-hidden="true">⋆˚☆˖°⋆｡° ✮˖ ࣪ ⊹⋆.˚</div>
+    </header>
+ 
+      <div class="controls">
+        <button class="btn-primary" id="open-btn">YOU'VE GOT MAIL! 💌</button>
+        <button class="btn-secondary" id="close-btn" style="display:none;">Hide Messages ↩</button>
+        <button class="btn-ghost" id="student-link">Leave a Note ✎</button>
+      </div>
+    </div>
+ 
+    <div class="notes-section" id="notes-section">
+      <div class="notes-header">
+        <span class="mono-label">Messages from your students ★</span>
+      </div>
+      <div class="notes-grid" id="notes-list"></div>
+    </div>
+ 
+  </div>
+ 
+  <!-- MODAL -->
+  <div class="overlay" id="modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="modal-close" aria-label="Close">✕</button>
+      <div class="modal-emoji" aria-hidden="true">✍️</div>
+      <h2 class="modal-title">Leave a note<br><span>for Glenda!</span></h2>
+ 
+      <!-- EMOJI PICKER -->
+      <div class="emoji-picker-section">
+        <p class="emoji-picker-label">Pick your icon</p>
+        <div class="emoji-chosen-row">
+          <div class="emoji-chosen" id="emoji-chosen">🌟</div>
+          <span class="emoji-hint">tap an emoji below to choose your icon</span>
+        </div>
+        <div class="emoji-grid" id="emoji-grid"></div>
+      </div>
+ 
+      <input type="text" id="author-input" class="field" placeholder="Your Name" />
+      <textarea id="message-input" class="field" placeholder="Leave a message..."></textarea>
+      <button class="btn-send" id="send-btn">Send Note ★</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>made with <3 with html/css/js using github pages & back4app by <a href="https://www.zahrabaxi.com" target="_blank">zahra</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

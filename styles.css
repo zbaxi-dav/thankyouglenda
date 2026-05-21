@@ -251,6 +251,7 @@ a{
 }
 
 /* ---- NOTES SECTION ---- */
+
 .notes-section {
   width: 80%;
   margin: auto;
@@ -269,7 +270,15 @@ a{
   margin-bottom: 28px;
 }
 
-/* Cycle note card border colors */
+.empty-message{
+  margin: auto 0;
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 40px;
+}
+
 .notes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

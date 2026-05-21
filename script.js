@@ -53,6 +53,13 @@ function fetchMessages() {
   var query = new Parse.Query(ThankYouNotes);
   query.descending("createdAt").find().then(function(results) {
     list.innerHTML = "";
+    
+    // NEW: Check if there are no messages
+    if (results.length === 0) {
+      list.innerHTML = '<div class="empty-message">oh no looks like its empty!</div>';
+      return;
+    }
+
     results.forEach(function(obj) {
       var emoji = obj.get("emoji") || "🌟";
       var div = document.createElement("div");

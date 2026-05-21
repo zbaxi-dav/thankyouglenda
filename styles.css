@@ -95,7 +95,6 @@ a{
 .hero-title {
   font-family: var(--font-display);
   font-size: clamp(3.5rem, 12vw, 7rem);
-  /* font-size: clamp(5rem, 16vw, 11rem); */
   line-height: 0.9;
   letter-spacing: 0.02em;
   color: var(--magenta);
@@ -103,13 +102,9 @@ a{
     4px 4px 0px var(--yellow),
     8px 8px 0px var(--cyan);
   margin-bottom: 8px;
-  /* animation: title-wobble 6s ease-in-out infinite; */
 }
 
-/* @keyframes title-wobble {
-  0%, 100% { transform: rotate(-1deg); }
-  50%       { transform: rotate(1deg); }
-} */
+
 
 .hero-drew {
   display: block;
@@ -285,29 +280,69 @@ a{
   gap: 20px;
   padding-bottom: 60px;
 }
-
+/* ---- BASE NOTE CARD ---- */
 .note-item {
   background: var(--white);
   padding: 26px 24px;
   border-radius: 16px;
-  border: 2.5px solid var(--magenta);
-  box-shadow: 4px 4px 0 var(--yellow);
+  border: 2.5px solid transparent; 
+  box-shadow: 4px 4px 0 transparent; 
   animation: noteIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.note-item:nth-child(3n+2) {
-  border-color: var(--cyan);
-  box-shadow: 4px 4px 0 var(--cyan);
-}
-.note-item:nth-child(3n+3) {
-  border-color: var(--orange);
-  box-shadow: 4px 4px 0 var(--orange);
 }
 
 .note-item:hover {
   transform: translate(-3px, -3px);
 }
+
+.note-name {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
+}
+
+/* ---- COLOR THEMES ---- */
+
+/* Theme 1 */
+.note-theme-1 { border-color: var(--magenta); box-shadow: 4px 4px 0 var(--yellow); }
+.note-theme-1 .note-name { color: var(--magenta); }
+
+/* Theme 2 */
+.note-theme-2 { border-color: var(--cyan); box-shadow: 4px 4px 0 var(--purple); }
+.note-theme-2 .note-name { color: var(--cyan); }
+
+/* Theme 3 */
+.note-theme-3 { border-color: var(--orange); box-shadow: 4px 4px 0 var(--cyan); }
+.note-theme-3 .note-name { color: var(--orange); }
+
+/* Theme 4 */
+.note-theme-4 { border-color: var(--purple); box-shadow: 4px 4px 0 var(--magenta); }
+.note-theme-4 .note-name { color: var(--purple); }
+
+/* Theme 5 */
+.note-theme-5 { border-color: var(--green); box-shadow: 4px 4px 0 var(--yellow); }
+.note-theme-5 .note-name { color: var(--green); }
+
+/* Theme 6 */
+.note-theme-6 { border-color: var(--yellow); box-shadow: 4px 4px 0 var(--green); }
+.note-theme-6 .note-name { color: #d1b400; }
+
+/* Theme 7 */
+.note-theme-7 { border-color: var(--magenta); box-shadow: 4px 4px 0 var(--cyan); }
+.note-theme-7 .note-name { color: var(--magenta); }
+
+/* Theme 8 */
+.note-theme-8 { border-color: var(--cyan); box-shadow: 4px 4px 0 var(--yellow); }
+.note-theme-8 .note-name { color: var(--cyan); }
+
+/* Theme 9 */
+.note-theme-9 { border-color: var(--orange); box-shadow: 4px 4px 0 var(--purple); }
+.note-theme-9 .note-name { color: var(--orange); }
+
+/* Theme 10 */
+.note-theme-10 { border-color: var(--purple); box-shadow: 4px 4px 0 var(--green); }
+.note-theme-10 .note-name { color: var(--purple); }
 
 @keyframes noteIn {
   from { opacity: 0; transform: scale(0.92) translateY(10px); }

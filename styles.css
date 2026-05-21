@@ -357,8 +357,7 @@ a{
   letter-spacing: 0.04em;
 }
 
-.note-item:nth-child(3n+2) .note-name { color: var(--cyan); }
-.note-item:nth-child(3n+3) .note-name { color: var(--orange); }
+
 
 .note-msg {
   font-size: 16px;
@@ -386,6 +385,8 @@ a{
   padding: 48px 44px;
   width: 100%;
   max-width: 440px;
+  max-height: 90vh;
+  overflow-y: auto;
   border-radius: 24px;
   border: 3px solid var(--magenta);
   box-shadow: 8px 8px 0 var(--yellow), 16px 16px 0 var(--cyan);
@@ -428,7 +429,7 @@ a{
   font-family: var(--font-display);
   font-size: 2.4rem;
   color: var(--text-main);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   line-height: 1.1;
   letter-spacing: 0.03em;
 }
@@ -458,7 +459,7 @@ a{
 
 textarea.field {
   resize: vertical;
-  min-height: 130px;
+  min-height: 90px;
   line-height: 1.6;
 }
 
@@ -482,7 +483,7 @@ textarea.field {
 /* ---- RESPONSIVE ---- */
 @media (max-width: 520px) {
   .card { padding: 32px 24px; }
-  .modal { padding: 40px 24px; }
+  .modal { padding: 32px 24px; }
 }
 /* ---- EMOJI PICKER ---- */
 
@@ -587,6 +588,40 @@ textarea.field {
   transform: scale(1.15);
 }
 
+/* ---- COLOR THEME PICKER ---- */
+.theme-picker-section {
+  margin-bottom: 24px;
+}
+
+.theme-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: flex-start;
+  padding: 4px; 
+}
+
+.theme-opt {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--white);
+  border-width: 3px;
+  border-style: solid;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s ease;
+}
+
+.theme-opt:hover {
+  transform: scale(1.1) translateY(-1px);
+}
+
+.theme-opt.selected {
+  transform: scale(1.25) translateY(-2px);
+  outline: 2px solid var(--text-main);
+  outline-offset: 2px;
+}
+
 /* ---- NOTE CARD WITH AVATAR ---- */
 .note-top {
   display: flex;
@@ -600,7 +635,7 @@ textarea.field {
   height: 38px;
   border-radius: 50%;
   background: var(--bg);
-  border: 2px solid var(--magenta);
+  border: 2px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -608,8 +643,16 @@ textarea.field {
   flex-shrink: 0;
 }
 
-.note-item:nth-child(3n+2) .note-avatar { border-color: var(--cyan); }
-.note-item:nth-child(3n+3) .note-avatar { border-color: var(--orange); }
+.note-theme-1 .note-avatar  { border-color: var(--magenta); }
+.note-theme-2 .note-avatar  { border-color: var(--cyan); }
+.note-theme-3 .note-avatar  { border-color: var(--orange); }
+.note-theme-4 .note-avatar  { border-color: var(--purple); }
+.note-theme-5 .note-avatar  { border-color: var(--green); }
+.note-theme-6 .note-avatar  { border-color: #d1b400; }
+.note-theme-7 .note-avatar  { border-color: var(--magenta); }
+.note-theme-8 .note-avatar  { border-color: var(--cyan); }
+.note-theme-9 .note-avatar  { border-color: var(--orange); }
+.note-theme-10 .note-avatar { border-color: var(--purple); }
 
 
 /* FOOTER */

@@ -275,10 +275,26 @@ a{
 }
 
 .notes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  columns: 3 260px;
+  column-gap: 20px;
   padding-bottom: 60px;
+}
+
+@supports (grid-template-rows: masonry) {
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-rows: masonry;
+    gap: 20px;
+    columns: unset;
+    column-gap: unset;
+  }
+}
+
+@media (max-width: 600px) {
+  .notes-grid {
+    columns: 1;
+  }
 }
 /* ---- BASE NOTE CARD ---- */
 .note-item {
@@ -289,6 +305,17 @@ a{
   box-shadow: 4px 4px 0 transparent; 
   animation: noteIn 0.4s cubic-bezier(0.16,1,0.3,1) both;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  break-inside: avoid;
+  margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
+}
+
+@supports (grid-template-rows: masonry) {
+  .note-item {
+    display: block;
+    margin-bottom: 0;
+  }
 }
 
 .note-item:hover {

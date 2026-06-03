@@ -61,7 +61,6 @@ function updateEmojiChosen() {
   el.style.boxShadow   = "3px 3px 0 " + colors.shadow;
 }
 
-// NEW: Function to build the theme swatches
 function buildThemePicker() {
   var container = document.querySelector("#theme-grid");
   if (!container) return;
@@ -70,7 +69,6 @@ function buildThemePicker() {
   for (var i = 1; i <= 10; i++) {
     (function(themeIndex) {
       var btn = document.createElement("button");
-      // Add the specific theme class so it inherits the colors!
       btn.className = "theme-opt note-theme-" + themeIndex + (themeIndex === selectedTheme ? " selected" : "");
       btn.type = "button"; 
       
@@ -119,45 +117,110 @@ function buildThemePicker() {
     return Math.abs(hash);
   }
 
+  // Fisher-Yates shuffle (mutates a copy)
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  var cachedResults = [];
+
+  function renderMessages(results) {
+    var list = document.querySelector("#notes-list");
+    if (!list) return;
+    list.innerHTML = "";
+
+    if (results.length === 0) {
+      list.innerHTML = '<div class="empty-message">oh no looks like its empty</div>';
+      return;
+    }
+
+    results.forEach(function(obj) {
+      var emoji      = obj.get("emoji")   || "🌟";
+      var author     = obj.get("author")  || "Anonymous";
+      var msg        = obj.get("message") || "";
+      var themeIndex = obj.get("theme")   || (getStringHash(author) % 10) + 1;
+
+      var div = document.createElement("div");
+      div.className = "note-item note-theme-" + themeIndex;
+      div.innerHTML =
+        '<div class="note-top">' +
+          '<div class="note-avatar">' + emoji + '</div>' +
+          '<div class="note-name">' + author + '</div>' +
+        '</div>' +
+        '<div class="note-msg">' + msg + '</div>';
+      list.appendChild(div);
+    });
+  }
+
   function fetchMessages() {
     var list = document.querySelector("#notes-list");
     if (!list) return;
 
     var ThankYouNotes = Parse.Object.extend("ThankYouNotes");
     var query = new Parse.Query(ThankYouNotes);
-    query.descending("createdAt").find().then(function(results) {
-      list.innerHTML = "";
-      
-      if (results.length === 0) {
-        list.innerHTML = '<div class="empty-message">oh no looks like its empty</div>';
-        return;
-      }
-
-      results.forEach(function(obj) {
-        var emoji = obj.get("emoji") || "🌟";
-        var author = obj.get("author") || "Anonymous";
-        var msg = obj.get("message") || "";
-        
-        var themeIndex = obj.get("theme") || (getStringHash(author) % 10) + 1;
-        
-        var div = document.createElement("div");
-        div.className = "note-item note-theme-" + themeIndex;
-        div.innerHTML =
-          '<div class="note-top">' +
-            '<div class="note-avatar">' + emoji + '</div>' +
-            '<div class="note-name">' + author + '</div>' +
-          '</div>' +
-          '<div class="note-msg">' + msg + '</div>';
-        list.appendChild(div);
-      });
+    query.find().then(function(results) {
+      cachedResults = results;
+      renderMessages(shuffle(results));
     }).catch(function(err) {
       console.error("Parse fetch error:", err);
     });
   }
 
+  // Mobile shake to reshuffle
+  function setupShake() {
+    if (!window.DeviceMotionEvent) return;
+
+    var lastShake = 0;
+    var threshold = 18;
+    var lastX = null, lastY = null, lastZ = null;
+
+    function onMotion(e) {
+      var acc = e.accelerationIncludingGravity;
+      if (!acc) return;
+
+      if (lastX === null) {
+        lastX = acc.x; lastY = acc.y; lastZ = acc.z;
+        return;
+      }
+
+      var delta = Math.abs(acc.x - lastX) + Math.abs(acc.y - lastY) + Math.abs(acc.z - lastZ);
+      lastX = acc.x; lastY = acc.y; lastZ = acc.z;
+
+      var now = Date.now();
+      if (delta > threshold && now - lastShake > 1200) {
+        lastShake = now;
+        var notesSection = document.querySelector("#notes-section");
+        if (cachedResults.length > 0 && notesSection && notesSection.classList.contains("visible")) {
+          notesSection.classList.add("shake-anim");
+          setTimeout(function() { notesSection.classList.remove("shake-anim"); }, 500);
+          renderMessages(shuffle(cachedResults));
+        }
+      }
+    }
+
+    // iOS 13+ requires permission
+    if (typeof DeviceMotionEvent.requestPermission === "function") {
+      // Attach a one-time tap listener to request permission on first interaction
+      document.addEventListener("click", function grantMotion() {
+        DeviceMotionEvent.requestPermission().then(function(state) {
+          if (state === "granted") window.addEventListener("devicemotion", onMotion);
+        }).catch(function(){});
+        document.removeEventListener("click", grantMotion);
+      }, { once: true });
+    } else {
+      window.addEventListener("devicemotion", onMotion);
+    }
+  }
+
   function setupUI() {
     buildEmojiPicker();
     buildThemePicker();
+    setupShake();
 
     var openBtn      = document.querySelector("#open-btn");
     var closeBtn     = document.querySelector("#close-btn");

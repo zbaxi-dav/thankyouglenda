@@ -399,10 +399,11 @@ a{
   background: rgba(26, 10, 18, 0.55);
   backdrop-filter: blur(10px);
   display: none;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  overflow-y: auto;
   z-index: 1000;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
 .overlay.visible { display: flex; }
@@ -412,9 +413,6 @@ a{
   padding: 48px 44px;
   width: 100%;
   max-width: 440px;
-  max-height: 90vh;
-  overflow: hidden;
-  overflow-y: auto;
   border-radius: 24px;
   border: 3px solid var(--magenta);
   box-shadow: 8px 8px 0 var(--yellow), 16px 16px 0 var(--cyan);
@@ -488,6 +486,7 @@ a{
 textarea.field {
   resize: vertical;
   min-height: 90px;
+  height: 120px;
   line-height: 1.6;
 }
 

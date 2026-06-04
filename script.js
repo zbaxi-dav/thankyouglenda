@@ -199,6 +199,8 @@ function buildThemePicker() {
           notesSection.classList.add("shake-anim");
           setTimeout(function() { notesSection.classList.remove("shake-anim"); }, 500);
           renderMessages(shuffle(cachedResults));
+          var hint = document.querySelector("#shake-hint");
+          if (hint) hint.style.display = "none";
         }
       }
     }
@@ -227,11 +229,22 @@ function buildThemePicker() {
     var notesSection = document.querySelector("#notes-section");
     var modal        = document.querySelector("#modal-overlay");
 
+    // Mobile shake hint
+    var shakeHint = document.createElement("div");
+    shakeHint.id = "shake-hint";
+    shakeHint.textContent = "📱 shake to reshuffle!";
+    shakeHint.style.cssText = "display:none;text-align:center;font-family:var(--font-mono);font-size:13px;color:var(--text-muted);letter-spacing:0.08em;margin-bottom:16px;animation:pulse-stars 2s ease-in-out infinite;";
+    notesSection.querySelector(".notes-header").appendChild(shakeHint);
+
     openBtn.addEventListener("click", function() {
       notesSection.style.display = "block";
       setTimeout(function() { notesSection.classList.add("visible"); }, 10);
       openBtn.style.display  = "none";
       closeBtn.style.display = "inline-block";
+      // Show shake hint on touch devices
+      if (window.DeviceMotionEvent && "ontouchstart" in window) {
+        shakeHint.style.display = "block";
+      }
       fetchMessages();
     });
 
@@ -252,11 +265,22 @@ function buildThemePicker() {
 
       var ThankYouNotes = Parse.Object.extend("ThankYouNotes");
       var note = new ThankYouNotes();
-      note.save({ author: author, message: msg, emoji: selectedEmoji, theme: selectedTheme }).then(function() {
+      note.save({ author: author, message: msg, emoji: selectedEmoji, theme: selectedTheme }).then(function(savedNote) {
         document.querySelector("#author-input").value  = "";
         document.querySelector("#message-input").value = "";
         modal.classList.remove("visible");
-        if (notesSection.classList.contains("visible")) fetchMessages();
+
+        // Always show notes section with new note at top
+        notesSection.style.display = "block";
+        setTimeout(function() { notesSection.classList.add("visible"); }, 10);
+        openBtn.style.display  = "none";
+        closeBtn.style.display = "inline-block";
+
+        // Put new note first, shuffle the rest behind it
+        // Remove savedNote if already in cachedResults to avoid duplicates
+        cachedResults = cachedResults.filter(function(r) { return r.id !== savedNote.id; });
+        cachedResults.unshift(savedNote);
+        renderMessages([savedNote].concat(shuffle(cachedResults.slice(1))));
       }).catch(function(err) {
         console.error("Parse save error:", err);
         alert("Something went wrong saving your note. Please try again.");
